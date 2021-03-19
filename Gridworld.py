@@ -9,10 +9,14 @@ class Gridworld:
     
     def _create_grid(self):
         self.grid = [[GridworldCell(row * 5 + col + 1) for col in range(5)] for row in range(5)]
+        self.grid[3][2] = None # Obstacle
+        self.grid[2][2] = None # Obstacle
 
     def _connect_grid(self):
         for row in range(5):
             for col in range(5):
+                if self.grid[row][col] is None:
+                    continue
                 if row > 0:
                     self.grid[row][col].up = self.grid[row-1][col]
                 if row < 4:
@@ -26,7 +30,9 @@ class Gridworld:
         for row in range(5):
             print("")
             for col in range(5):
-                if self.grid[row][col].is_filled():
+                if self.grid[row][col] is None:
+                    print("OO", end="\t")
+                elif self.grid[row][col].is_filled():
                     print("*" + str(self.grid[row][col]) + "*", end="\t")
                 else:
                     print(str(self.grid[row][col]), end="\t")
