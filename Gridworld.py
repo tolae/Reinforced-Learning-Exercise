@@ -36,3 +36,4 @@ class Gridworld:
                     print("*" + str(self.grid[row][col]) + "*", end="\t")
                 else:
                     print(str(self.grid[row][col]), end="\t")
+        print("")

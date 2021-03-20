@@ -23,12 +23,12 @@ def run():
         # Execute onto the environment
         next_state = Execution.execute(adj_states + [current_state], actual_action)
 
-        agent.update(next_state, knowledge.reward_func(next_state))
+        agent.update(next_state, knowledge.state_value_dict[next_state])
 
 if __name__ == "__main__":
-    world = Gridworld()
+    world = Gridworld(True)
 
-    knowledge = Knowledge(world)
+    knowledge = Knowledge(world, True)
     agent = Agent()
     agent.current_state = world.grid[0][0]
 
