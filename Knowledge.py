@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 class Knowledge:
     def __init__(self, world, debug=False):
@@ -19,8 +20,8 @@ class Knowledge:
         self.state_value_dict[self.goal] = 10
         self.state_value_dict[self.water_tile] = -10
         # Assign values through state-value valuation via Bellman's Equation
-        err = 0
-        while err < 0.01:
+        err = self.state_value_dict[self.goal]
+        while err > sys.float_info.epsilon:
             for row in world.grid:
                 for cell in [c for c in row if c is not None]:
                     if cell == self.goal or cell == self.water_tile:
@@ -34,11 +35,11 @@ class Knowledge:
                     ])
                     prev_val = self.state_value_dict[cell]
                     self.state_value_dict[cell] = val
-                    err = np.max([err, abs(prev_val - val)])
+                    err = np.min([err, abs(prev_val - val)])
 
         if debug:
             self.print_value_grid()
-    
+
     def action_func(self, desired_action):
         action_list = [desired_action] + self._get_turns(desired_action) + [4] # 4 is stay in spot
         return np.random.choice(action_list, p=self._probabilities)
@@ -72,6 +73,6 @@ class Knowledge:
 
     def _get_p_90(self, desired_action):
         return (desired_action - 1) % 4
-    
+
     def _get_m_90(self, desired_action):
         return (desired_action + 1) % 4
