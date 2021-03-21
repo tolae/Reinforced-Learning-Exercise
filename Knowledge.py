@@ -7,6 +7,7 @@ class Knowledge:
         self.world = world
         # Set known probabilities from environment dynamics
         self._probabilities = [0.8, 0.05, 0.05, 0.1]
+        self.gamma = 1
         # Create knowledge base state values and rewards
         self.state_value_dict = {None: 0}
         # Initialize state values to 0
@@ -26,7 +27,7 @@ class Knowledge:
                 for cell in [c for c in row if c is not None]:
                     if cell == self.goal or cell == self.water_tile:
                         continue
-                    val = self.reward_func(cell) + np.max([
+                    val = self.reward_func(cell) + self.gamma * np.max([
                         self.transition_func(cell, 0),
                         self.transition_func(cell, 1),
                         self.transition_func(cell, 2),
