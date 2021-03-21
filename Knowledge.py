@@ -69,6 +69,9 @@ class Knowledge:
                 print("{:.2f}".format(self.state_value_dict[cell]), end="\t")
             print("")
 
+    def state_value(self, state):
+        return self.state_value_dict[state]
+
     def _get_turns(self, desired_action):
         return [self._get_p_90(desired_action), self._get_m_90(desired_action)]
 
