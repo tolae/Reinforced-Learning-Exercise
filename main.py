@@ -13,18 +13,18 @@ global agent
 global knowledge
 
 def run():
-        # Returns the current state of the agent
-        current_state = Monitor.monitor(None, agent)
-        # See what moves are available from the current positions
-        adj_states = Analyze.analyze(current_state)
-        # Get the next action
-        desired_action = Planning.uniformRandomDistribution(adj_states)
-        # Apply Environmental uncertainty
-        actual_action = knowledge.action_func(desired_action)
-        # Execute onto the environment
-        next_state = Execution.execute(adj_states + [current_state], actual_action)
+    # Returns the current state of the agent
+    current_state = Monitor.monitor(None, agent)
+    # See what moves are available from the current positions
+    adj_states = Analyze.analyze(current_state)
+    # Get the next action
+    desired_action = Planning.uniformRandomDistribution(adj_states)
+    # Apply Environmental uncertainty
+    actual_action = knowledge.action_func(desired_action)
+    # Execute onto the environment
+    next_state = Execution.execute(adj_states + [current_state], actual_action)
 
-        agent.update(next_state, knowledge.state_value_dict[next_state])
+    agent.update(next_state, knowledge.state_value_dict[next_state])
 
 def run_optimal():
     # Returns the current state of the agent
