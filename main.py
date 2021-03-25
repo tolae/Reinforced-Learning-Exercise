@@ -42,16 +42,16 @@ def run_optimal():
 
 def gather_random_stats():
     global agent
-    total_accumulated_rewards = []
-    for _ in range(10000):
+    total_steps = [None] * 10000
+    total_accumulated_rewards = [None] * 10000
+    for i in range(10000):
         agent = Agent()
         agent.current_state = world.grid[0][0]
         while agent.current_state != knowledge.goal:
             run()
 
-        # print("End in steps: " + str(agent.steps))
-        # print("Total rewards: " + str(agent.accumulated_rewards))
-        total_accumulated_rewards.append(agent.accumulated_rewards)
+        total_steps[i] = agent.steps
+        total_accumulated_rewards[i] = agent.accumulated_rewards
 
     print("===Random Results===")
     print("Mean: " + str(np.mean(total_accumulated_rewards)))
@@ -59,24 +59,31 @@ def gather_random_stats():
     print("Max: " + str(np.max(total_accumulated_rewards)))
     print("Min: " + str(np.min(total_accumulated_rewards)))
 
+    print("Steps at Max: " + str(total_steps[np.argmax(total_accumulated_rewards)]))
+    print("Steps at Min: " + str(total_steps[np.argmin(total_accumulated_rewards)]))
+
+
 def gather_optimal_stats():
     global agent
-    total_accumulated_rewards = []
-    for _ in range(10000):
+    total_steps = [None] * 10000
+    total_accumulated_rewards = [None] * 10000
+    for i in range(10000):
         agent = Agent()
         agent.current_state = world.grid[0][0]
         while agent.current_state != knowledge.goal:
             run_optimal()
 
-        # print("End in steps: " + str(agent.steps))
-        # print("Total rewards: " + str(agent.accumulated_rewards))
-        total_accumulated_rewards.append(agent.accumulated_rewards)
+        total_steps[i] = agent.steps
+        total_accumulated_rewards[i] = agent.accumulated_rewards
 
     print("===Optimal Results===")
     print("Mean: " + str(np.mean(total_accumulated_rewards)))
     print("Std Dev.: " +  str(np.std(total_accumulated_rewards)))
     print("Max: " + str(np.max(total_accumulated_rewards)))
     print("Min: " + str(np.min(total_accumulated_rewards)))
+
+    print("Steps at Max: " + str(total_steps[np.argmax(total_accumulated_rewards)]))
+    print("Steps at Min: " + str(total_steps[np.argmin(total_accumulated_rewards)]))
 
 if __name__ == "__main__":
     world = Gridworld(True)
